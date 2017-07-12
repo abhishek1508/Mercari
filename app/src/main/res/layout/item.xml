@@ -29,6 +29,15 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             style="@style/black_14_white"/>
+
+        <ImageView
+            android:id="@+id/sold"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="1dp"
+            android:src="@mipmap/sold_out"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
     </RelativeLayout>
 
     <TextView

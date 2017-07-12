@@ -20,6 +20,10 @@ import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import rx.Observable;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.android.mercariinterview.util.Constants.SOLD_OUT;
+
 /**
  * Created by AbhishekKejriwal on 7/10/2017.
  */
@@ -52,6 +56,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
         Observable.just(itemList.get(position))
                 .subscribe(item -> {
                     Glide.with(context).load(item.photo).bitmapTransform(new RoundedCornersTransformation(context, 15, 4)).into(holder.photoView);
+                    holder.sold.setVisibility(item.status.equalsIgnoreCase(SOLD_OUT) ? VISIBLE : GONE);
                     holder.price.setText(context.getString(R.string.dollar, String.valueOf(item.price)));
                     holder.title.setText(item.name);
                 });
@@ -67,6 +72,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
         @BindView(R.id.photo) ImageView photoView;
         @BindView(R.id.title) TextView title;
         @BindView(R.id.price) TextView price;
+        @BindView(R.id.sold) ImageView sold;
         public ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
