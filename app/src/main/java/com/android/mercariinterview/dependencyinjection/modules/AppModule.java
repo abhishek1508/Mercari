@@ -18,7 +18,6 @@ public class AppModule {
     public AppModule(MercariApp context) {
         this.context = context;
     }
-
     @Provides
     @AppScope
     public MercariApp getContext() {
