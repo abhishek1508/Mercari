@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import rx.Observable;
+import timber.log.Timber;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -33,6 +34,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
     Context context;
     LayoutInflater inflater;
     List<Item> itemList;
+    private String TAG = Adapter.class.getSimpleName();
 
     public Adapter(Context context) {
         this.context = context;
@@ -55,6 +57,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ItemViewHolder>{
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         Observable.just(itemList.get(position))
                 .subscribe(item -> {
+                    Timber.e(TAG, item);
                     Glide.with(context).load(item.photo).bitmapTransform(new RoundedCornersTransformation(context, 15, 4)).into(holder.photoView);
                     holder.sold.setVisibility(item.status.equalsIgnoreCase(SOLD_OUT) ? VISIBLE : GONE);
                     holder.price.setText(context.getString(R.string.dollar, String.valueOf(item.price)));

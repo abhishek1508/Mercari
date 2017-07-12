@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by AbhishekKejriwal on 7/11/2017.
  */
@@ -32,6 +34,7 @@ public class HomeInteractor {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
+            Timber.e(ex, ex.getMessage());
             ex.printStackTrace();
             return null;
         }
