@@ -2,32 +2,40 @@ package com.android.mercariinterview.home;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import com.android.mercariinterview.MercariApp;
 import com.android.mercariinterview.R;
+import com.android.mercariinterview.data.Item;
 import com.android.mercariinterview.data.Response;
 import com.android.mercariinterview.dependencyinjection.components.DaggerHomeComponent;
 import com.android.mercariinterview.dependencyinjection.modules.HomeModule;
-import com.google.gson.Gson;
+import com.android.mercariinterview.home.mvp.HomeContract;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 
-public class HomeActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class HomeActivity extends AppCompatActivity implements HomeContract.View {
 
     @Inject Adapter adapter;
+    @Inject HomeContract.Presenter presenter;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
 
-    private Response response;;
+
+    private GridLayoutManager manager;
+    private Response response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         setDagger();
-        parseJson(readFromAssets());
+        initData();
     }
 
     private void setDagger() {
@@ -39,25 +47,17 @@ public class HomeActivity extends AppCompatActivity {
                 .inject(this);
     }
 
-    private String readFromAssets() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("file.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
+    private void initData() {
+        presenter.attachView(this);
+        presenter.setRecyclerViewData();
     }
 
-    private void parseJson(String jsonString) {
-        Gson gson = new Gson();
-        response = gson.fromJson(jsonString, Response.class);
-        Log.d("lll", "parseJson: ");
+    @Override
+    public void showRecyclerViewData(List<Item> itemList) {
+        manager = new GridLayoutManager(this, 3);
+        adapter = new Adapter(this);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        adapter.setItemList(itemList);
     }
 }

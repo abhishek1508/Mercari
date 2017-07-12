@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.mercariinterview.R;
 import com.android.mercariinterview.data.Item;
 import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
