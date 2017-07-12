@@ -1,6 +1,7 @@
 package com.android.mercariinterview.dependencyinjection.modules;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 
 import com.android.mercariinterview.dependencyinjection.scope.HomeScope;
 import com.android.mercariinterview.home.Adapter;
@@ -10,6 +11,8 @@ import com.android.mercariinterview.home.mvp.HomePresenter;
 
 import dagger.Module;
 import dagger.Provides;
+
+import static com.android.mercariinterview.util.Constants.NUMBER_OF_COLUMNS;
 
 /**
  * Created by AbhishekKejriwal on 7/11/2017.
@@ -40,5 +43,11 @@ public class HomeModule {
     @HomeScope
     public HomeInteractor provideInteractor() {
         return new HomeInteractor(appCompatActivity);
+    }
+
+    @Provides
+    @HomeScope
+    public GridLayoutManager provideGridLayoutManager() {
+        return new GridLayoutManager(appCompatActivity, NUMBER_OF_COLUMNS);
     }
 }

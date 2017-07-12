@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import com.android.mercariinterview.MercariApp;
 import com.android.mercariinterview.R;
 import com.android.mercariinterview.data.Item;
-import com.android.mercariinterview.data.Response;
 import com.android.mercariinterview.dependencyinjection.components.DaggerHomeComponent;
 import com.android.mercariinterview.dependencyinjection.modules.HomeModule;
 import com.android.mercariinterview.home.mvp.HomeContract;
@@ -23,11 +22,9 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Inject Adapter adapter;
     @Inject HomeContract.Presenter presenter;
+    @Inject GridLayoutManager manager;
+
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
-
-
-    private GridLayoutManager manager;
-    private Response response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +51,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     @Override
     public void showRecyclerViewData(List<Item> itemList) {
-        manager = new GridLayoutManager(this, 3);
-        adapter = new Adapter(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         adapter.setItemList(itemList);
